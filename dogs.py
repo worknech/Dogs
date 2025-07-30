@@ -1,5 +1,8 @@
 from tkinter import *
+from tkinter import ttk
 from tkinter import messagebox as mb
+from tkinter.ttk import Progressbar
+
 import requests
 from PIL import Image, ImageTk
 from io import BytesIO
@@ -20,6 +23,7 @@ def show_image():
             label.image = img
         except Exception as e:
             mb.showerror("Ошибка", f'Возникла ошибка при запросе к API {e}')
+    progress.stop()
 
 
 def get_dog_image():
@@ -33,14 +37,23 @@ def get_dog_image():
         return None
 
 
+def prog():
+    progress['value'] = 0
+    progress.start(30)
+    progress.after(3000, show_image)
+
+
 root = Tk()
 root.title('Картинки с собачками')
 root.geometry('360x420')
 
-label = Label()
+label = ttk.Label()
 label.pack(pady=10)
 
-button = Button(text='Загрузить изображение', command=show_image)
+button = ttk.Button(text='Загрузить изображение', command=prog)
 button.pack(pady=10)
+
+progress = Progressbar(root, orient=HORIZONTAL, mode='determinate', length=300)
+progress.pack(pady=10)
 
 root.mainloop()
