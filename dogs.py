@@ -26,8 +26,9 @@ def show_image():
             notebook.add(tab, text=f'Картинка №{notebook.index('end') + 1}')
             lb = ttk.Label(tab, image=img)
             lb.pack(padx=10, pady=10)
-            lb.image = img
+            tab.image = img  # сохраняем изображение в объекте вкладки
         except Exception as e:
+            progress.stop()  # Остановка прогресс-бара при возникновении ошибки
             mb.showerror("Ошибка", f'Возникла ошибка при запросе к API {e}')
     progress.stop()
 
@@ -49,6 +50,12 @@ def prog():
     progress.after(3000, show_image)
 
 
+def clear_tabs():
+    """Удаляет все вкладки из Notebook"""
+    for tab in notebook.tabs():
+        notebook.forget(tab)
+
+
 root = Tk()
 root.title('Картинки с собачками')
 root.geometry('360x420')
@@ -56,8 +63,14 @@ root.geometry('360x420')
 label = ttk.Label()
 label.pack(pady=10)
 
-button = ttk.Button(text='Загрузить изображение', command=prog)
-button.pack(pady=10)
+button_frame = Frame(label)
+button_frame.pack(side=TOP, pady=5)
+
+button = ttk.Button(button_frame, text='Загрузить изображение', command=prog)
+button.pack(side=LEFT, padx=5)
+
+clear_button = ttk.Button(button_frame, text='Очистить вкладки', command=clear_tabs)
+clear_button.pack(side=TOP, pady=5)
 
 progress = Progressbar(root, orient=HORIZONTAL, mode='determinate', length=300)
 progress.pack(pady=10)
