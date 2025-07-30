@@ -63,12 +63,15 @@ root.geometry('360x420')
 label = ttk.Label()
 label.pack(pady=10)
 
+# Фрейм для размещения кнопок
 button_frame = Frame(label)
 button_frame.pack(side=TOP, pady=5)
 
+# Кнопка загрузки
 button = ttk.Button(button_frame, text='Загрузить изображение', command=prog)
 button.pack(side=LEFT, padx=5)
 
+# Кнопка очистки
 clear_button = ttk.Button(button_frame, text='Очистить вкладки', command=clear_tabs)
 clear_button.pack(side=TOP, pady=5)
 
